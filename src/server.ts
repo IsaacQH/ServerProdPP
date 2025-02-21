@@ -1,3 +1,24 @@
-export function sumar(){
-    console.log(2+2)
+import express from "express";
+import router from "./router";
+import db from "./config/db";
+import colors from 'colors'
+
+//Conectamos a la base de datos con una funcion asincrona
+async function connectDB() {
+    try{
+        await db.authenticate()  //Autentica con la base de datos que exista y el link dde coneccion
+        db.sync()  //Ira agregando todo lo anadido a la DB
+        console.log(colors.magenta('Conectado a la base de datos'))
+    } catch(error){
+        console.log(error)
+        console.log(colors.red('Hubo un error en la base de datos'))
+    }
 }
+
+connectDB()
+
+const server = express() //Este sera el servidor de la aplicacion
+
+server.use('/api/products', router) //
+
+export default server

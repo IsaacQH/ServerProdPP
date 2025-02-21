@@ -1,7 +1,9 @@
 
+import server from "./server";
+import colors from'colors'
 
-import { sumar } from "./server";
+const port = process.env.PORT || 4000  //Asignamos el pueto pero dejamos 4000 de default, porque el deployment asigna el puerto y no tu 
 
-console.log('desde index.ts')
-
-sumar()
+server.listen(port, () => {
+    console.log(colors.cyan.bold('REST API en puerto 4000'))
+})

@@ -9,18 +9,18 @@ class Product extends Model{       // Definimos el modelo del producto
     @Column({
         type: DataType.STRING(100)  //Definimos el tipo de dato y el numero de carateres
     })
-    name:string
+    declare name:string
 
     @Column({
         type: DataType.FLOAT(6,2)  //Definimos el tipo de dato y el numero de carateres
     })
-    price: number
+    declare price: number
 
     @Default(true)  //Colocamos el valor default en true
     @Column({
         type: DataType.BOOLEAN  //Definimos el tipo de dato y el numero de carateres
     })
-    availability: boolean
+    declare availability: boolean
 }
 
 export default Product

@@ -8,9 +8,9 @@ async function connectDB() {
     try{
         await db.authenticate()  //Autentica con la base de datos que exista y el link dde coneccion
         db.sync()  //Ira agregando todo lo anadido a la DB
-        console.log(colors.magenta('Conectado a la base de datos'))
+        //console.log(colors.magenta('Conectado a la base de datos'))
     } catch(error){
-        console.log(error)
+        //console.log(error)
         console.log(colors.red('Hubo un error en la base de datos'))
     }
 }
@@ -24,5 +24,9 @@ const server = express() //Este sera el servidor de la aplicacion
 server.use(express.json()) //Habilita la lectura de los formualsios json
 
 server.use('/api/products', router) //
+
+server.get('/api', (req, res) =>{
+    res.json({msg:'Desde API'})
+})
 
 export default server

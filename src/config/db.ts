@@ -10,3 +10,4 @@ const db = new Sequelize(process.env.DATABASE_URL, {    //Funcion que se conecta
 }) 
 
 export default db
+

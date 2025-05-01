@@ -39,7 +39,7 @@ export const getProductByID = async (req:Request, res:Response) =>{
 export const createProduct = async (req:Request, res:Response) => { //Definimos tipo de dato
     try {
         const product = await Product.create(req.body) //Creamos un objeto product con el input
-        res.json({data:product})
+        res.status(201).json({data:product})
     } catch (error) {
         console.log(error)
     }

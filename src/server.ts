@@ -4,7 +4,7 @@ import db from "./config/db";
 import colors from 'colors'
 
 //Conectamos a la base de datos con una funcion asincrona
-async function connectDB() {
+export async function connectDB() {
     try{
         await db.authenticate()  //Autentica con la base de datos que exista y el link dde coneccion
         db.sync()  //Ira agregando todo lo anadido a la DB

@@ -1,6 +1,7 @@
 import request from 'supertest'
 import server from "../../server";
 import { body } from 'express-validator';
+import exp from 'node:constants';
 
 describe('POST /api/products', () => {
     
@@ -177,4 +178,79 @@ describe('PUT /api/products/:id', () => {
         expect(response.status).not.toBe(200)
         expect(response.body).not.toHaveProperty('data')
     })
+
+    //Prueba que se haya hecho un PUT correctamente
+    it('Should return 200 response for a successfull PUT', async () => {
+        const response = await request(server).put(`/api/products/1`).send({
+            name : "Samsung updated",
+            price : 250,
+            availability: true
+          })  //haemos un put y enviamos un vacio en put
+
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveProperty('data')  //Revisa que se depliegue el mensaje
+          //Caso contrario
+        expect(response.status).not.toBe(400)
+        expect(response.status).not.toBe(404)
+    })
+})
+
+describe('PATCH /api/products/:id', () => {
+    //Prueba para revisar que el producto no existe
+    it('Should return 404 response for a non-existing product', async () => {
+        const productID = 2000
+        const response = await request(server).patch(`/api/products/${productID}`)
+        expect(response.status).toBe(404)
+        expect(response.body.error).toBe('Producto no encontrado')
+        //Caso contrario
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    })
+
+        //Revisar que haya mandado un patch exitoso 200
+        it('Should update the product available', async () => {
+            const response = await request(server).patch('/api/products/1')
+            expect(response.status).toBe(200)
+            expect(response.body).toHaveProperty('data')
+            expect(response.body.data.availability).toBe(false)
+            //Caso contrario
+            expect(response.status).not.toBe(404)
+            expect(response.status).not.toBe(400)
+            expect(response.body).not.toHaveProperty('error')
+        })
+
+})
+
+describe('DELETE /api/products/:id', () => {
+    
+    //Prueba que revisa que el id sea valido
+    it('Should check a Valid ID', async () => {
+        const response = await request(server).delete(`/api/products/NOT-Valid`)
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors[0].msg).toBe('ID no valido')
+    })
+
+    //Prueba que revisa que el id sea valido
+    it('Should return a 404 for a nonexistance id', async () => {
+        const productID = 2000
+        const response = await request(server).delete(`/api/products/${productID}`)
+        expect(response.status).toBe(404)
+        expect(response.body).toHaveProperty('error')
+        expect(response.body.error).toBe('Producto no encontrado')
+        //Caso contrario
+        expect(response.status).not.toBe(200)
+    })
+
+    //Prueba que revisa que el id sea valido
+    it('Should should delete product', async () => {
+        const response = await request(server).delete(`/api/products/1`)
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveProperty('data')
+        expect(response.body.data).toBe('Producto eliminado')
+        //Caso contrario
+        expect(response.status).not.toBe(400)
+        expect(response.status).not.toBe(404)
+    })
+
 })

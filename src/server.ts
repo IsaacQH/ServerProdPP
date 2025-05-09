@@ -2,6 +2,8 @@ import express from "express";
 import router from "./router";
 import db from "./config/db";
 import colors from 'colors'
+import swaggerUi from "swagger-ui-express";
+import swaggerSpect, {swaggerUiOptions} from "./config/swagger";
 
 //Conectamos a la base de datos con una funcion asincrona
 export async function connectDB() {
@@ -25,8 +27,12 @@ server.use(express.json()) //Habilita la lectura de los formualsios json
 
 server.use('/api/products', router) //
 
-server.get('/api', (req, res) =>{
+//Prueba que la URL funcione y se llama un get para revisar la respuesta
+/*server.get('/api', (req, res) =>{
     res.json({msg:'Desde API'})
-})
+}) */
+
+//RUTA de Documentacion de API
+server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpect, swaggerUiOptions)) 
 
 export default server

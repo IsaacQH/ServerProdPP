@@ -3,7 +3,7 @@ import request from "supertest";
 import server, {connectDB} from "../server";
 import db from "../config/db";
 
-describe('GET /api', () => {
+/* describe('GET /api', () => {
     it('Should send back a json response', async () => {
         const res = await request(server).get('/api')  //guarda el valor al ahcer request en el get con json
         
@@ -14,7 +14,7 @@ describe('GET /api', () => {
         expect(res.status).not.toBe(404)   //Espera que no reciba 404
         expect(res.body.msg).not.toBe('desde api') //Espera a que el objeto json res de el msg
     })
-})
+}) */
 
 jest.mock('../config/db')  //Creamos el mock de la base de datos
 

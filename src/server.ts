@@ -2,6 +2,7 @@ import express from "express";
 import router from "./router";
 import db from "./config/db";
 import colors from 'colors'
+import cors, {CorsOptions} from 'cors' // Importamos cors
 import swaggerUi from "swagger-ui-express";
 import swaggerSpect, {swaggerUiOptions} from "./config/swagger";
 
@@ -21,6 +22,20 @@ connectDB()
 
 //Instancia de express
 const server = express() //Este sera el servidor de la aplicacion
+
+//CORS - permitir conexiones
+const corsOptions:CorsOptions = {
+    origin: function(origin, callback){ //el origen dice quien conecta y la permite, callback niega la conexion
+        if(origin === process.env.FRONTEND_URL){  //Variable de entorno de dominio/url permitido
+            callback(null, true)   //Como se permite la coneccion el error es null y cor true
+        }else{
+            callback(new Error('Error de CORS'), false)
+        }
+    }
+}
+
+server.use(cors(corsOptions))  //Pemrite que los CORS se ejecuten con los metodos http (get, post etc)
+
 
 //Leer datos de formularios
 server.use(express.json()) //Habilita la lectura de los formualsios json

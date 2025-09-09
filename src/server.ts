@@ -3,6 +3,7 @@ import router from "./router";
 import db from "./config/db";
 import colors from 'colors'
 import cors, {CorsOptions} from 'cors' // Importamos cors
+import morgan from 'morgan'
 import swaggerUi from "swagger-ui-express";
 import swaggerSpect, {swaggerUiOptions} from "./config/swagger";
 
@@ -39,6 +40,8 @@ server.use(cors(corsOptions))  //Pemrite que los CORS se ejecuten con los metodo
 
 //Leer datos de formularios
 server.use(express.json()) //Habilita la lectura de los formualsios json
+
+server.use(morgan('dev'))  //da unn codigo en respuesta de la peticion realizada al back
 
 server.use('/api/products', router) //
 
